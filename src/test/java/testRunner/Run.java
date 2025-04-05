@@ -9,21 +9,16 @@ import io.cucumber.junit.CucumberOptions;
 
 @CucumberOptions
         (
-		features={".//Features/LoginFeature.feature"},  
+		features={".//Features/Addtocart.feature"},  
 		glue="stepdefinition",                       
 		dryRun= false,     
 		monochrome=true,
-		plugin= {"pretty","html:target/cucumber-reports/reports_html.html"}
+		//plugin= {"pretty","html:target/cucumber-reports/reports_html.html"}
+		//plugin= {"pretty","json:target/cucumber-reports/reports_json.json"}
+		plugin= {"pretty","junit:target/cucumber-reports/reports_xml.xml",
+				   "html:target/cucumber-reports/reports_html.html",
+				   "json:target/cucumber-reports/reports_json.json"}
 		)
-
-
-
-
-
-
-
-
-
 
 
 

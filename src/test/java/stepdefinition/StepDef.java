@@ -2,25 +2,24 @@ package stepdefinition;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.cucumber.java.After;
-import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -30,13 +29,24 @@ import pageobject.Loginpage;
 
 public class StepDef extends Base 
 {
+	
 	@Before("@Sanity")
-	public void setup1()
+	public void setup1() throws IOException
 	{
+	
+		
+		 FileInputStream file=new FileInputStream("config.properties");
+		 rc =new Properties();
+		 rc.load(file);
+		 
+		 
+		log = LogManager.getLogger("StepDef");
+		
 		 WebDriverManager.chromedriver().clearDriverCache().setup();
 		    //System.out.println(WebDriverManager.chromedriver().getDownloadedDriverVersion());
 		 System.out.println("it will run for sanity scenario");
 		     driver=new ChromeDriver();
+		     log.info("Setup1 executed");
 	}
 	
 	@Before("@Regression")
@@ -46,6 +56,7 @@ public class StepDef extends Base
 		 System.out.println("it will run for regression scenario");
 		    //System.out.println(WebDriverManager.chromedriver().getDownloadedDriverVersion());
 		     driver=new ChromeDriver();
+		     log.info("Setup2 executed");
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -56,16 +67,19 @@ public class StepDef extends Base
 	      Llg=new Loginpage(driver);
 	      ACP=new AddtoCartPage(driver);
 	       cp=new ContactPage(driver);
+	       log.info("user launch chrome browser");
 	}
 
 	@When("user opens URL {string}")
 	public void user_opens_url(String URL) {
 	    driver.get(URL);
+	    log.info("url launch");
 	}
 
 	@When("click on loginbutton")
 	public void click_on_loginbutton() {
 		Llg.clickonloginbutton();
+		   log.info("user click on login button");
 	}
 
 	@When("User enter Username as {string} and Password as {string}")
@@ -75,11 +89,13 @@ public class StepDef extends Base
 		Llg.enterusername(username);
 		Thread.sleep(2000);
 		Llg.enterpassword(password);
+		   log.info("user enter username and password");
 	}
 
 	@When("click on login")
 	public void click_on_login() {
 		Llg.clickonlogin();
+		   log.info("user clcik on loginbutton");
 	}
 
 	@Then("user will view Dashboard {string}")
@@ -89,10 +105,12 @@ public class StepDef extends Base
 		System.out.println("Tiltle"+ ":"+ActualTitle);
 		if(ActualTitle.equals(ExpectedTitle))
 		{
+			   log.warn("tile is showing");
 			Assert.assertTrue(true);
 		}
 		else
 		{
+			log.warn("tile is showing");
 			Assert.assertTrue(false);
 		}
 	}
@@ -101,11 +119,13 @@ public class StepDef extends Base
 	public void user_click_on_logout_button() throws InterruptedException {
 		Thread.sleep(3000);
 		Llg.ClickonLogout();
+		   log.info("user click on logout button");
 	}
 
 	@Then("page will logout")
 	public void page_will_logout() {
 		 driver.close();
+		   log.info("Browser close");
 	}
 
 	@Then("Browser will close")
@@ -125,10 +145,12 @@ public void user_will_view_dashboard() {
 	
 	if(Actual_getTitle.equals(Expected_Title))
 	{
+		   log.warn("user get title");
 		Assert.assertTrue(true);
 	}
 	else
 	{
+		   log.warn("user not get tile");
 		Assert.assertFalse(false);
 	}
 
@@ -138,6 +160,7 @@ public void user_will_view_dashboard() {
 public void user_click_on_product() throws InterruptedException {
 	Thread.sleep(3000);
 	ACP.clickonproduct();
+	   log.info("user click on product button");
 }
 
 @When("click on add to cart")
@@ -160,6 +183,7 @@ public void click_on_add_to_cart() throws InterruptedException {
 public void go_to_the_cartlisting() throws InterruptedException {
 
 	ACP.clickoncartbutton();
+	   log.info("user click on cart button");
 	Thread.sleep(3000);
 	
 }
@@ -174,10 +198,12 @@ public void product_will_list() throws InterruptedException {
 	
 	if(Actual_Text.equals(Expected_Text))
 	{
+		   log.info("user see the product list");
 		Assert.assertTrue(true);
 	}
 	else
 	{
+		   log.info("user not see the product list");
 		Assert.assertTrue(false);
 	}
 }
@@ -187,6 +213,7 @@ public void user_click_on_place_order() throws InterruptedException
 {
 	Thread.sleep(3000);
  ACP.clickonPlaceorderbutton();
+ log.info("user click on product button");
 }
 
 
@@ -200,6 +227,7 @@ public void enter_customer_data() throws InterruptedException {
 	ACP.entermonthtextbar("may");
 	ACP.enteryeartextbar("48484");
 	ACP.clickonPurchase();
+	   log.info("user enetr customer data ");
 	
 }
 
@@ -213,10 +241,13 @@ public void order_will_placed(String string) throws InterruptedException {
 
 	if(Actual_Conformation_text.equals(Expected_Conformation_text))
 	{
+		   log.info("order is placed");
 		Assert.assertTrue(true);
+		
 	}
 	else
 	{
+		   log.info("order is not placed ");
 		Assert.assertTrue(false);
 	}
 }
@@ -225,18 +256,21 @@ public void order_will_placed(String string) throws InterruptedException {
 public void click_on_ok_button() throws InterruptedException {
 	Thread.sleep(3000);
 	ACP.clickonokbutton();
+	log.info("user click on ok button");
 }
 
 @When("user click on contact")
 public void user_click_on_contact() throws InterruptedException {
 	Thread.sleep(3000);
    cp.clickonContactbutton();
+	log.info("user click on contact button");
 }
 
 @When("enter contact details")
 public void enter_contact_details() throws InterruptedException {
 	Thread.sleep(3000);
    cp.enterContactEmailTextbar("jay");
+	log.info("user enter email textbar");
 }
 
 @When("click on Send Message button")
@@ -252,6 +286,7 @@ public void click_on_send_message_button() throws InterruptedException {
 public void enter_contact_details_with_name() throws InterruptedException {
 	Thread.sleep(3000);
 	cp.enterContactNameTextbar("basu");
+	log.info("user enter contact textbar");
 }
 /////////////////////////////////////////////////////////////////////////////////////
 

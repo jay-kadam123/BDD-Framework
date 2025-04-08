@@ -1,0 +1,8 @@
+[INFO ] 2025-04-08 16:14:12.397 [main] StepDef - Setup1 executed
+[INFO ] 2025-04-08 16:14:12.514 [main] StepDef - user launch chrome browser
+[INFO ] 2025-04-08 16:14:14.096 [main] StepDef - url launch
+[INFO ] 2025-04-08 16:14:14.298 [main] StepDef - user click on login button
+[INFO ] 2025-04-08 16:14:18.674 [main] StepDef - user enter username and password
+[INFO ] 2025-04-08 16:14:18.780 [main] StepDef - user clcik on loginbutton
+[INFO ] 2025-04-08 16:14:22.013 [main] StepDef - user click on logout button
+[INFO ] 2025-04-08 16:14:22.335 [main] StepDef - Browser close

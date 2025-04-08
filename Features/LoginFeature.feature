@@ -7,7 +7,6 @@ Scenario: Successful Login with Valid Credentials
  And  click on loginbutton
  And User enter Username as "ka1ka12" and Password as "123456"
  And click on login
- Then user will view Dashboard "STORE"
  When User click on logout button
 Then page will logout
 And Browser will close

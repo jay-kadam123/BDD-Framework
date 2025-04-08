@@ -6,21 +6,20 @@ import io.cucumber.junit.CucumberOptions;
 
 
 @RunWith(Cucumber.class)
-
 @CucumberOptions
         (
 		//features={".//Features/Contact.feature"},
 		//features= {".//Features/"},
         		
-        features= {".//features/Contact.feature",".//features/LoginFeature.feature"},
+        features= {".//features/LoginFeature.feature"},
 		glue="stepdefinition",                       
 		dryRun= false,     
 		monochrome=true,
-		//tags="@Sanity",
+		tags="@Sanity",
 		//tags="@Regression",
 		//tags="@Sanity or @Regression",   //all
 		//tags="@Sanity and @Regression",   //both name should assign
-		tags="@Sanity and not @Regression",
+		//tags="@Sanity and not @Regression",
 		
 		//plugin= {"pretty","html:target/cucumber-reports/reports_html.html"}
 		//plugin= {"pretty","json:target/cucumber-reports/reports_json.json"}

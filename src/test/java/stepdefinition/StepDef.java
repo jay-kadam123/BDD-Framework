@@ -1,17 +1,27 @@
 package stepdefinition;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeStep;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pageobject.AddtoCartPage;
@@ -20,12 +30,28 @@ import pageobject.Loginpage;
 
 public class StepDef extends Base 
 {
+	@Before("@Sanity")
+	public void setup1()
+	{
+		 WebDriverManager.chromedriver().clearDriverCache().setup();
+		    //System.out.println(WebDriverManager.chromedriver().getDownloadedDriverVersion());
+		 System.out.println("it will run for sanity scenario");
+		     driver=new ChromeDriver();
+	}
 	
+	@Before("@Regression")
+	public void setup2()
+	{
+		 WebDriverManager.chromedriver().clearDriverCache().setup();
+		 System.out.println("it will run for regression scenario");
+		    //System.out.println(WebDriverManager.chromedriver().getDownloadedDriverVersion());
+		     driver=new ChromeDriver();
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////
 	@Given("User launch ChromeBrowser")
 	public void user_launch_chrome_browser() {
-	    WebDriverManager.chromedriver().clearDriverCache().setup();
-	    //System.out.println(WebDriverManager.chromedriver().getDownloadedDriverVersion());
-	     driver=new ChromeDriver();
+	   
 	     driver.manage().window().maximize();
 	      Llg=new Loginpage(driver);
 	      ACP=new AddtoCartPage(driver);
@@ -85,7 +111,7 @@ public class StepDef extends Base
 	@Then("Browser will close")
 	public void browser_will_close() {
 		
-		 driver.quit();
+		// driver.quit();
 	}
 	
 	
@@ -227,8 +253,53 @@ public void enter_contact_details_with_name() throws InterruptedException {
 	Thread.sleep(3000);
 	cp.enterContactNameTextbar("basu");
 }
+/////////////////////////////////////////////////////////////////////////////////////
+
+@After(order=1)
+public void teardown1(Scenario sc) 
+{
+	
+	if(sc.isFailed()==true)
+	{
+		
+		TakesScreenshot ts=((TakesScreenshot)driver);
+		File src = ts.getScreenshotAs(OutputType.FILE);
+		
+		String screenpath="C:\\Users\\Jaywant\\eclipse-workspace\\DemoBlaze\\Screenshot\\test1.png";
+		File newdes=new File(screenpath);
+		try {
+			FileUtils.copyFile(src, newdes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	driver.quit();
+}
 
 
 
+
+//@After(order=2)
+//public void teardown2()
+//{
+//	driver.quit();
+//}
+//
+//@BeforeStep
+//public void beforestep()
+//{
+//	System.out.println("this will run before each step");
+//}
+//
+//@AfterStep
+//public void afterstep()
+//{
+//	System.out.println("this will run after each step");
+//}
 	
 }
